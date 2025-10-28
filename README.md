@@ -56,7 +56,7 @@ It demonstrates how a simple calculator can evolve into a fully tested web app w
 
 ### 1️⃣ Clone the Repository
 ```bash
-git clone https://github.com/your-username/fastapi-calculator.git
+git clone https://github.com/ArthNangar/assignment8.git
 cd assginment8
 
 Create Virtual Environment

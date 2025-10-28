@@ -86,51 +86,48 @@
 
 
 
-
 # tests/e2e/test_e2e.py
 
 import pytest
-from playwright.sync_api import Page, expect  # Added Playwright's expect for stable assertions
+from playwright.sync_api import Page, expect
 
 @pytest.mark.e2e
-def test_hello_world(page: Page, fastapi_server):
-    """Verify that homepage shows Hello World"""
+def test_homepage_title(page: Page, fastapi_server):
+    """Verify that homepage displays the correct title."""
     page.goto("http://localhost:8000")
-    page.wait_for_selector("h1")  # Added wait to ensure DOM loaded
-    expect(page.locator("h1")).to_have_text("Hello World")
+    page.wait_for_selector("h1")
+    # Updated expectation to match your HTML heading
+    expect(page.locator("h1")).to_have_text("Module 8 -- Assignment 8")
 
 
 @pytest.mark.e2e
 def test_calculator_add(page: Page, fastapi_server):
-    """Verify addition functionality on the calculator"""
+    """Verify addition functionality on the calculator."""
     page.goto("http://localhost:8000")
 
     page.fill("#a", "10")
     page.fill("#b", "5")
-    page.click('text=Add')  # Changed selector from 'button:text("Add")' → simpler, valid syntax
+    page.click("text=Add")
 
-    # Wait for the result to appear and contain text
+    # Wait for result to appear
     page.wait_for_selector("#result", state="visible")
     page.wait_for_function("document.querySelector('#result').innerText.trim() !== ''")
 
     result_text = page.inner_text("#result").strip()
-    # Relaxed assertion: only check for correct number
-    assert "15" in result_text, f"Expected result containing '15', got '{result_text}'"
+    assert "15" in result_text, f"Expected '15' in result text, got '{result_text}'"
 
 
 @pytest.mark.e2e
 def test_calculator_divide_by_zero(page: Page, fastapi_server):
-    """Verify divide-by-zero is handled gracefully"""
+    """Verify divide-by-zero is handled gracefully."""
     page.goto("http://localhost:8000")
 
     page.fill("#a", "10")
     page.fill("#b", "0")
-    page.click('text=Divide')  # Simplified selector
+    page.click("text=Divide")
 
-    # Wait until result area shows text (error message)
     page.wait_for_selector("#result", state="visible")
     page.wait_for_function("document.querySelector('#result').innerText.trim() !== ''")
 
     result_text = page.inner_text("#result").strip()
-    # Check for divide-by-zero message (substring match for safety)
     assert "Cannot divide by zero" in result_text, f"Expected divide-by-zero error, got '{result_text}'"
