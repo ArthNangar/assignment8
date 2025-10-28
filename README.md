@@ -100,6 +100,13 @@ json
 }
 ```
 
+## Screenshots 
+
+![](images/image5.png)
+
+![](images/image6.png)
+
+
 ## CI/CD Pipeline
 
 The GitHub Actions pipeline includes three stages:
